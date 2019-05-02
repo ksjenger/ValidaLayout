@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities.model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.Serializable;
-
-import view.FormResp;
-
+import entities.bean.Remessa;
 
 public class BancoDoBrasil extends Remessa  {
 
-	Banco banco = new Banco();
 	private BufferedReader br;
 
     @Override
@@ -57,7 +48,7 @@ public class BancoDoBrasil extends Remessa  {
         return temp;
     }
 
-    public void ArquivoReaderBB240(String banco, int linhaSelecionada, String tipo, String linhasArquivo) {
+    /*public void ArquivoReaderBB240(String banco, int linhaSelecionada, String tipo, String linhasArquivo) {
         FormResp n = new FormResp();
         n.setVisible(true);
         n.setLocationRelativeTo(null);
@@ -3265,5 +3256,6 @@ public class BancoDoBrasil extends Remessa  {
         }//fim do for
 
     }//fim metodo ArquivoSegmentoR240
+    */
 
 }
