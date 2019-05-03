@@ -62,7 +62,7 @@ public class Principal extends javax.swing.JFrame {
 		jbtnCad.setText("Visual");
 		jbtnCad.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				/* jbtnCadActionPerformed(evt); */
+				jbtnCadActionPerformed(evt);
 			}
 		});
 		jPanelCabecalho.add(jbtnCad);
@@ -100,12 +100,12 @@ public class Principal extends javax.swing.JFrame {
 		jTextAreaLinhaArquivo.setRows(5);
 		jTextAreaLinhaArquivo.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				// jTextAreaLinhaArquivoMouseClicked(evt);
+				jTextAreaLinhaArquivoMouseClicked(evt);
 			}
 		});
 		jTextAreaLinhaArquivo.addInputMethodListener(new java.awt.event.InputMethodListener() {
 			public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-				/* jTextAreaLinhaArquivoCaretPositionChanged(evt); */
+				jTextAreaLinhaArquivoCaretPositionChanged(evt);
 			}
 
 			public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
@@ -219,7 +219,7 @@ public class Principal extends javax.swing.JFrame {
 
 		jMenuBar1.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				/* jMenuBar1MouseClicked(evt); */
+				jMenuBar1MouseClicked(evt);
 			}
 		});
 
@@ -231,7 +231,7 @@ public class Principal extends javax.swing.JFrame {
 		jRadioButtonMenuBancosHomologados.setToolTipText("");
 		jRadioButtonMenuBancosHomologados.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				/* jRadioButtonMenuBancosHomologadosActionPerformed(evt); */
+				jRadioButtonMenuBancosHomologadosActionPerformed(evt);
 			}
 		});
 		jMenu.add(jRadioButtonMenuBancosHomologados);
@@ -241,7 +241,7 @@ public class Principal extends javax.swing.JFrame {
 		jRadioButtonMenuSobre.setText("Sobre");
 		jRadioButtonMenuSobre.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				/* jRadioButtonMenuSobreActionPerformed(evt); */
+				jRadioButtonMenuSobreActionPerformed(evt);
 			}
 		});
 		jMenu.add(jRadioButtonMenuSobre);
@@ -442,15 +442,17 @@ public class Principal extends javax.swing.JFrame {
 	private void jButtonAnalisar2ActionPerformed(java.awt.event.ActionEvent evt) {
 
 		Banco bancotemp = new Banco(ImportarArquivos.ImportarArquivos(url));
-		if(bancotemp.getBanco().equals("Banco do Brasil S A")) {
+		bancos.setTipo(bancotemp.getTipo());
+		bancos.setBanco(bancotemp.getBanco());
+		bancos.setUrl(url);
+		bancos.setQtdLinhas(bancotemp.getQtdLinhas());
+		if (bancotemp.getBanco().equals("Banco do Brasil S A")) {
 			arquivoBancoBB = new BancoDoBrasil();
 			arquivoBancoBB.setBanco((bancotemp.getBanco()));
 			arquivoBancoBB.setTipo(bancotemp.getTipo());
 			arquivoBancoBB.setQtdLinhas(bancotemp.getQtdLinhas());
 			arquivoBancoBB.setArquivo(bancotemp.getArquivo());
 		}
-		
-		
 
 		jTextAreaLinhaArquivo.setText(arquivoBancoBB.getArquivo());
 		jLabelRespBanco.setText(arquivoBancoBB.getBanco());
@@ -464,173 +466,226 @@ public class Principal extends javax.swing.JFrame {
 	}
 
 	private void jTextAreaLinhaArquivoMouseClicked(java.awt.event.MouseEvent evt) {
-         jTextAreaLinhaArquivo.setVisible(true);
-         
-         
-        int i, j, l = 0, temp, temp1;
-        
-        
-        
-        bancos.setLinhaSelecionada(((BancoBean) bancos).numeroLinha(jTextAreaLinhaArquivo.getCaretPosition(), bancos.getTipo()));
-        
-          //CNAB 240
-        if (bancos.getTipo().equals("CNAB 240")) {
-            //Banco do Brasil
-            if (bancos.getBanco().equals("Banco do Brasil S A")) {
-                arquivoBancoBB.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
-                if (bancos.getLinhaSelecionada() == 1) {
-                    arquivoBancoBB.ArquivoReader(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() == 2) {
-                    arquivoBancoBB.ArquivoReaderLote(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() > 2) {
-                    if (arquivoBancoBB.tipoSegmento(arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("P")) {
-                        arquivoBancoBB.ArquivoSegmentoP(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoBB.tipoSegmento(arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("Q")) {
-                        arquivoBancoBB.ArquivoSegmentoQ(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoBB.tipoSegmento(arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("R")) {
-                        arquivoBancoBB.ArquivoSegmentoR(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
-                        arquivoBancoBB.ArquivoTrailerdeLote(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
-                        arquivoBancoBB.ArquivoTrailerdeArquivo(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Tente novamente com outra linha.");
-                    }
-                }
-            }
-        }
-               /*
-                
-            }else if (bancos.getBanco().equals("Banco Itau")) {
-                arquivoBancoIt.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
-                if (bancos.getLinhaSelecionada() == 1) {
-                    arquivoBancoIt.ArquivoReader240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() == 2) {
-                    arquivoBancoIt.ArquivoReaderLote240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() > 2) {
-                    if (arquivoBancoIt.tipoSegmento(arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("P")) {
-                        arquivoBancoIt.ArquivoSegmentoP240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoIt.tipoSegmento(arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("Q")) {
-                        arquivoBancoIt.ArquivoSegmentoQ240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoIt.tipoSegmento(arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("R")) {
-                        JOptionPane.showMessageDialog(null, "Segmento R não homologado");
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
-                        arquivoBancoIt.ArquivoTrailerdeLote240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
-                        arquivoBancoIt.ArquivoTrailerdeArquivo240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Tente novamente com outra linha.");
-                    }
-                }
+		jTextAreaLinhaArquivo.setVisible(true);
+		BancoBean bancoBean = new BancoBean();
+		
+		int i, j, l = 0, temp, temp1;
+		
+		bancos.setLinhaSelecionada(bancoBean.numeroLinha(jTextAreaLinhaArquivo.getCaretPosition(), bancos.getTipo()));
 
-                // Banco Santander
-            } else if (bancos.getBanco().equals("Grupo Santander")) {
-                arquivoBancoSt.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
-                if (bancos.getLinhaSelecionada() == 1) {
-                    arquivoBancoSt.ArquivoReaderSantander240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() == 2) {
-                    arquivoBancoSt.ArquivoReaderLote240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() > 2) {
-                    if (arquivoBancoSt.tipoSegmento(arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("P")) {
-                        arquivoBancoSt.ArquivoSegmentoP240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoSt.tipoSegmento(arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("Q")) {
-                        arquivoBancoSt.ArquivoSegmentoQ240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoSt.tipoSegmento(arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("R")) {
-                        arquivoBancoSt.ArquivoSegmentoR240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
-                        arquivoBancoSt.ArquivoTrailerdeLote240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
-                        arquivoBancoSt.ArquivoTrailerdeArquivo240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Tente novamente com outra linha.");
-                    }
-                }
+		// CNAB 240
+		if (bancos.getTipo().equals("CNAB 240")) {
+			// Banco do Brasil
+			if (bancos.getBanco().equals("Banco do Brasil S A")) {
+				arquivoBancoBB.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
+				if (bancos.getLinhaSelecionada() == 1) {
+					arquivoBancoBB.ArquivoReader(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(),
+							arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+				} else if (bancos.getLinhaSelecionada() == 2) {
+					arquivoBancoBB.ArquivoReaderLote(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(),
+							arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+				} else if (bancos.getLinhaSelecionada() > 2) {
+					if (arquivoBancoBB.tipoSegmento(arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1))
+							.equals("P")) {
+						arquivoBancoBB.ArquivoSegmentoP(bancos.getBanco(), bancos.getLinhaSelecionada(),
+								bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+					} else if (arquivoBancoBB
+							.tipoSegmento(arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1))
+							.equals("Q")) {
+						arquivoBancoBB.ArquivoSegmentoQ(bancos.getBanco(), bancos.getLinhaSelecionada(),
+								bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+					} else if (arquivoBancoBB
+							.tipoSegmento(arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1))
+							.equals("R")) {
+						arquivoBancoBB.ArquivoSegmentoR(bancos.getBanco(), bancos.getLinhaSelecionada(),
+								bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+					} else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
+						arquivoBancoBB.ArquivoTrailerdeLote(bancos.getBanco(), bancos.getLinhaSelecionada(),
+								bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+					} else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
+						arquivoBancoBB.ArquivoTrailerdeArquivo(bancos.getBanco(), bancos.getLinhaSelecionada(),
+								bancos.getTipo(), arquivoBancoBB.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
+					} else {
+						JOptionPane.showMessageDialog(null, "Tente novamente com outra linha.");
+					}
+				}
+			}
+		}
+		/*
+		 * 
+		 * }else if (bancos.getBanco().equals("Banco Itau")) {
+		 * arquivoBancoIt.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas()); if
+		 * (bancos.getLinhaSelecionada() == 1) {
+		 * arquivoBancoIt.ArquivoReader240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == 2) {
+		 * arquivoBancoIt.ArquivoReaderLote240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() > 2) { if
+		 * (arquivoBancoIt.tipoSegmento(arquivoBancoIt.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("P")) {
+		 * arquivoBancoIt.ArquivoSegmentoP240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (arquivoBancoIt.tipoSegmento(arquivoBancoIt.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("Q")) {
+		 * arquivoBancoIt.ArquivoSegmentoQ240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (arquivoBancoIt.tipoSegmento(arquivoBancoIt.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("R")) {
+		 * JOptionPane.showMessageDialog(null, "Segmento R não homologado"); } else if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
+		 * arquivoBancoIt.ArquivoTrailerdeLote240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
+		 * arquivoBancoIt.ArquivoTrailerdeArquivo240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else {
+		 * JOptionPane.showMessageDialog(null, "Tente novamente com outra linha."); } }
+		 * 
+		 * // Banco Santander } else if (bancos.getBanco().equals("Grupo Santander")) {
+		 * arquivoBancoSt.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas()); if
+		 * (bancos.getLinhaSelecionada() == 1) {
+		 * arquivoBancoSt.ArquivoReaderSantander240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == 2) {
+		 * arquivoBancoSt.ArquivoReaderLote240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() > 2) { if
+		 * (arquivoBancoSt.tipoSegmento(arquivoBancoSt.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("P")) {
+		 * arquivoBancoSt.ArquivoSegmentoP240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (arquivoBancoSt.tipoSegmento(arquivoBancoSt.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("Q")) {
+		 * arquivoBancoSt.ArquivoSegmentoQ240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (arquivoBancoSt.tipoSegmento(arquivoBancoSt.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("R")) {
+		 * arquivoBancoSt.ArquivoSegmentoR240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
+		 * arquivoBancoSt.ArquivoTrailerdeLote240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
+		 * arquivoBancoSt.ArquivoTrailerdeArquivo240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoSt.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else {
+		 * JOptionPane.showMessageDialog(null, "Tente novamente com outra linha."); } }
+		 * 
+		 * } //Caixa
+		 * 
+		 * else if (bancos.getBanco().equals("Caixa Econômica Federal")) {
+		 * arquivoBancoCx.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas()); if
+		 * (bancos.getLinhaSelecionada() == 1) {
+		 * arquivoBancoCx.ArquivoReader(bancos.getBanco(), bancos.getLinhaSelecionada(),
+		 * bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == 2) {
+		 * arquivoBancoCx.ArquivoReaderLote240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() > 2) { if
+		 * (arquivoBancoCx.tipoSegmento(arquivoBancoCx.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("P")) {
+		 * arquivoBancoCx.ArquivoSegmentoP240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (arquivoBancoCx.tipoSegmento(arquivoBancoCx.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("Q")) {
+		 * arquivoBancoCx.ArquivoSegmentoQ240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (arquivoBancoCx.tipoSegmento(arquivoBancoCx.getLinhasArquivo(bancos.
+		 * getLinhaSelecionada() - 1)).equals("R")) {
+		 * arquivoBancoCx.ArquivoSegmentoR240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
+		 * arquivoBancoCx.ArquivoTrailerdeLote240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
+		 * arquivoBancoCx.ArquivoTrailerdeArquivo240(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else {
+		 * JOptionPane.showMessageDialog(null, "Tente novamente com outra linha."); } }
+		 * 
+		 * }
+		 * 
+		 * } else { //CNAB 400 if (bancos.getBanco().equals("Banco Itau")) {
+		 * arquivoBancoIt2.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas()); if
+		 * (bancos.getLinhaSelecionada() == 1) {
+		 * arquivoBancoIt2.ArquivoReader400(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt2.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else
+		 * if (bancos.getLinhaSelecionada() > 1) { if (bancos.getLinhaSelecionada() ==
+		 * bancos.getQtdLinhas()) { arquivoBancoIt2.Trailer(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoIt2.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } else {
+		 * arquivoBancoIt2.Detalhe(bancos.getBanco(), bancos.getLinhaSelecionada(),
+		 * bancos.getTipo(),
+		 * arquivoBancoIt2.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } }
+		 * 
+		 * } if(bancos.getBanco().equals("Bradesco")){
+		 * arquivoBancoBra400.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
+		 * if (bancos.getLinhaSelecionada() == 1) {
+		 * arquivoBancoBra400.ArquivoReader400(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoBra400.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); }
+		 * else if (bancos.getLinhaSelecionada() >= 2) { if
+		 * (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
+		 * arquivoBancoBra400.Trailer(bancos.getBanco(), bancos.getLinhaSelecionada(),
+		 * bancos.getTipo(),
+		 * arquivoBancoBra400.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); }
+		 * else { arquivoBancoBra400.Detalhe(bancos.getBanco(),
+		 * bancos.getLinhaSelecionada(), bancos.getTipo(),
+		 * arquivoBancoBra400.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)); } }
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 */
 
-            }
-        //Caixa    
-            
-            else if (bancos.getBanco().equals("Caixa Econômica Federal")) {
-                arquivoBancoCx.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
-                if (bancos.getLinhaSelecionada() == 1) {
-                    arquivoBancoCx.ArquivoReader(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() == 2) {
-                    arquivoBancoCx.ArquivoReaderLote240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() > 2) {
-                    if (arquivoBancoCx.tipoSegmento(arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("P")) {
-                        arquivoBancoCx.ArquivoSegmentoP240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoCx.tipoSegmento(arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("Q")) {
-                        arquivoBancoCx.ArquivoSegmentoQ240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (arquivoBancoCx.tipoSegmento(arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1)).equals("R")) {
-                        arquivoBancoCx.ArquivoSegmentoR240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas() - 1) {
-                        arquivoBancoCx.ArquivoTrailerdeLote240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
-                        arquivoBancoCx.ArquivoTrailerdeArquivo240(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoCx.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Tente novamente com outra linha.");
-                    }
-                }
-
-            }
-            
-        } else {
-            //CNAB 400
-            if (bancos.getBanco().equals("Banco Itau")) {
-                arquivoBancoIt2.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
-                if (bancos.getLinhaSelecionada() == 1) {
-                    arquivoBancoIt2.ArquivoReader400(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt2.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() > 1) {
-                    if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
-                        arquivoBancoIt2.Trailer(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt2.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else {
-                        arquivoBancoIt2.Detalhe(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoIt2.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    }
-                }
-
-            }
-            if(bancos.getBanco().equals("Bradesco")){
-                arquivoBancoBra400.setGravarLinhas(bancos.getUrl(), bancos.getQtdLinhas());
-                if (bancos.getLinhaSelecionada() == 1) {
-                    arquivoBancoBra400.ArquivoReader400(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBra400.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                } else if (bancos.getLinhaSelecionada() >= 2) {
-                    if (bancos.getLinhaSelecionada() == bancos.getQtdLinhas()) {
-                        arquivoBancoBra400.Trailer(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBra400.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    } else {
-                        arquivoBancoBra400.Detalhe(bancos.getBanco(), bancos.getLinhaSelecionada(), bancos.getTipo(), arquivoBancoBra400.getLinhasArquivo(bancos.getLinhaSelecionada() - 1));
-                    }
-                }
-                
-            }
-
-        }
-
-    */
-         
 	}
 
-    private void jTextAreaLinhaArquivoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {
-        
-    }
+	private void jTextAreaLinhaArquivoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {
 
-    private void jRadioButtonMenuBancosHomologadosActionPerformed(java.awt.event.ActionEvent evt) {
-    
-    }
+	}
 
-    private void jMenuBar1MouseClicked(java.awt.event.MouseEvent evt) {
-        
-    }
+	private void jRadioButtonMenuBancosHomologadosActionPerformed(java.awt.event.ActionEvent evt) {
 
-    private void jRadioButtonMenuSobreActionPerformed(java.awt.event.ActionEvent evt) {
-        FormSobre sobre = new FormSobre ();
-        sobre.setVisible(true);
-        sobre.setTitle("Sobre");
-    }
+	}
 
-    private void jbtnCadActionPerformed(java.awt.event.ActionEvent evt) {
-        /*CadastroVisualClasse visual = new CadastroVisualClasse();
-        visual.MontarFormCdVisual(bancos.getBanco(), bancos.getTipo(), visual.getGravarLinha(bancos.getUrl()));*/
-    }
-   
+	private void jMenuBar1MouseClicked(java.awt.event.MouseEvent evt) {
+
+	}
+
+	private void jRadioButtonMenuSobreActionPerformed(java.awt.event.ActionEvent evt) {
+		FormSobre sobre = new FormSobre();
+		sobre.setVisible(true);
+		sobre.setTitle("Sobre");
+	}
+
+	private void jbtnCadActionPerformed(java.awt.event.ActionEvent evt) {
+		/*
+		 * CadastroVisualClasse visual = new CadastroVisualClasse();
+		 * visual.MontarFormCdVisual(bancos.getBanco(), bancos.getTipo(),
+		 * visual.getGravarLinha(bancos.getUrl()));
+		 */
+	}
+
 	public static void main(String args[]) {
 
 		try {
