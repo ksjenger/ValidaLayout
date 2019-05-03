@@ -91,5 +91,5 @@ public class Banco {
 	public void setLinhaSelecionada(int linhaSelecionada) {
 		this.linhaSelecionada = linhaSelecionada;
 	}
- 
+
 }
