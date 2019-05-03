@@ -1,5 +1,7 @@
 package view;
 
+import static java.awt.event.InputEvent.ALT_MASK;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,9 +15,14 @@ import java.nio.file.Paths;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import application.ImportarArquivos;
+import entities.model.Banco;
+import entities.model.BancoDoBrasil;
+
 
 public class Principal extends javax.swing.JFrame {
 
+	Banco bancos = new BancoDoBrasil();
 
     public Principal() {
         initComponents();
@@ -61,7 +68,7 @@ public class Principal extends javax.swing.JFrame {
         jbtnCad.setText("Visual");
         jbtnCad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCadActionPerformed(evt);
+                /*jbtnCadActionPerformed(evt);*/
             }
         });
         jPanelCabecalho.add(jbtnCad);
@@ -99,12 +106,12 @@ public class Principal extends javax.swing.JFrame {
         jTextAreaLinhaArquivo.setRows(5);
         jTextAreaLinhaArquivo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextAreaLinhaArquivoMouseClicked(evt);
+                //jTextAreaLinhaArquivoMouseClicked(evt);
             }
         });
         jTextAreaLinhaArquivo.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jTextAreaLinhaArquivoCaretPositionChanged(evt);
+                /*jTextAreaLinhaArquivoCaretPositionChanged(evt);*/
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
@@ -222,18 +229,18 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuBar1MouseClicked(evt);
+                /*jMenuBar1MouseClicked(evt);*/
             }
         });
 
         jMenu.setText("Opções");
 
-        jRadioButtonMenuBancosHomologados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK));
+        jRadioButtonMenuBancosHomologados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, ALT_MASK));
         jRadioButtonMenuBancosHomologados.setText("Bancos e Layouts Revisados");
         jRadioButtonMenuBancosHomologados.setToolTipText("");
         jRadioButtonMenuBancosHomologados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonMenuBancosHomologadosActionPerformed(evt);
+                /*jRadioButtonMenuBancosHomologadosActionPerformed(evt);*/
             }
         });
         jMenu.add(jRadioButtonMenuBancosHomologados);
@@ -242,7 +249,7 @@ public class Principal extends javax.swing.JFrame {
         jRadioButtonMenuSobre.setText("Sobre");
         jRadioButtonMenuSobre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonMenuSobreActionPerformed(evt);
+                /*jRadioButtonMenuSobreActionPerformed(evt);*/
             }
         });
         jMenu.add(jRadioButtonMenuSobre);
@@ -255,7 +262,184 @@ public class Principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonProcurarActionPerformed(java.awt.event.ActionEvent evt) {
+    public Banco getBancos() {
+		return bancos;
+	}
+
+	public void setBancos(Banco bancos) {
+		this.bancos = bancos;
+	}
+
+	public javax.swing.ButtonGroup getButtonGroupCNAB() {
+		return buttonGroupCNAB;
+	}
+
+	public void setButtonGroupCNAB(javax.swing.ButtonGroup buttonGroupCNAB) {
+		this.buttonGroupCNAB = buttonGroupCNAB;
+	}
+
+
+	public javax.swing.JButton getjButtonProcurar() {
+		return jButtonProcurar;
+	}
+
+	public void setjButtonProcurar(javax.swing.JButton jButtonProcurar) {
+		this.jButtonProcurar = jButtonProcurar;
+	}
+
+	public javax.swing.JLabel getjLabelAnalise() {
+		return jLabelAnalise;
+	}
+
+	public void setjLabelAnalise(javax.swing.JLabel jLabelAnalise) {
+		this.jLabelAnalise = jLabelAnalise;
+	}
+
+	public javax.swing.JLabel getjLabelBanco1() {
+		return jLabelBanco1;
+	}
+
+	public void setjLabelBanco1(javax.swing.JLabel jLabelBanco1) {
+		this.jLabelBanco1 = jLabelBanco1;
+	}
+
+	public javax.swing.JLabel getjLabelQtd1() {
+		return jLabelQtd1;
+	}
+
+	public void setjLabelQtd1(javax.swing.JLabel jLabelQtd1) {
+		this.jLabelQtd1 = jLabelQtd1;
+	}
+
+	public javax.swing.JLabel getjLabelRespBanco() {
+		return jLabelRespBanco;
+	}
+
+	public void setjLabelRespBanco(javax.swing.JLabel jLabelRespBanco) {
+		this.jLabelRespBanco = jLabelRespBanco;
+	}
+
+	public javax.swing.JLabel getjLabelRespTipo() {
+		return jLabelRespTipo;
+	}
+
+	public void setjLabelRespTipo(javax.swing.JLabel jLabelRespTipo) {
+		this.jLabelRespTipo = jLabelRespTipo;
+	}
+
+	public javax.swing.JLabel getjLabelResplinas() {
+		return jLabelResplinas;
+	}
+
+	public void setjLabelResplinas(javax.swing.JLabel jLabelResplinas) {
+		this.jLabelResplinas = jLabelResplinas;
+	}
+
+	public javax.swing.JLabel getjLabelTipo() {
+		return jLabelTipo;
+	}
+
+	public void setjLabelTipo(javax.swing.JLabel jLabelTipo) {
+		this.jLabelTipo = jLabelTipo;
+	}
+
+	public javax.swing.JLabel getjLabel_Cabecalho() {
+		return jLabel_Cabecalho;
+	}
+
+	public void setjLabel_Cabecalho(javax.swing.JLabel jLabel_Cabecalho) {
+		this.jLabel_Cabecalho = jLabel_Cabecalho;
+	}
+
+	public javax.swing.JMenu getjMenu() {
+		return jMenu;
+	}
+
+	public void setjMenu(javax.swing.JMenu jMenu) {
+		this.jMenu = jMenu;
+	}
+
+	public javax.swing.JMenuBar getjMenuBar1() {
+		return jMenuBar1;
+	}
+
+	public void setjMenuBar1(javax.swing.JMenuBar jMenuBar1) {
+		this.jMenuBar1 = jMenuBar1;
+	}
+
+	public javax.swing.JPanel getjPanel2() {
+		return jPanel2;
+	}
+
+	public void setjPanel2(javax.swing.JPanel jPanel2) {
+		this.jPanel2 = jPanel2;
+	}
+
+	public javax.swing.JPanel getjPanel3() {
+		return jPanel3;
+	}
+
+	public void setjPanel3(javax.swing.JPanel jPanel3) {
+		this.jPanel3 = jPanel3;
+	}
+
+	public javax.swing.JPanel getjPanelCabecalho() {
+		return jPanelCabecalho;
+	}
+
+	public void setjPanelCabecalho(javax.swing.JPanel jPanelCabecalho) {
+		this.jPanelCabecalho = jPanelCabecalho;
+	}
+
+	public javax.swing.JPanel getjPanelImportar() {
+		return jPanelImportar;
+	}
+
+	public void setjPanelImportar(javax.swing.JPanel jPanelImportar) {
+		this.jPanelImportar = jPanelImportar;
+	}
+
+	public javax.swing.JRadioButtonMenuItem getjRadioButtonMenuBancosHomologados() {
+		return jRadioButtonMenuBancosHomologados;
+	}
+
+	public void setjRadioButtonMenuBancosHomologados(javax.swing.JRadioButtonMenuItem jRadioButtonMenuBancosHomologados) {
+		this.jRadioButtonMenuBancosHomologados = jRadioButtonMenuBancosHomologados;
+	}
+
+	public javax.swing.JRadioButtonMenuItem getjRadioButtonMenuSobre() {
+		return jRadioButtonMenuSobre;
+	}
+
+	public void setjRadioButtonMenuSobre(javax.swing.JRadioButtonMenuItem jRadioButtonMenuSobre) {
+		this.jRadioButtonMenuSobre = jRadioButtonMenuSobre;
+	}
+
+	public javax.swing.JScrollPane getjScrollPane1() {
+		return jScrollPane1;
+	}
+
+	public void setjScrollPane1(javax.swing.JScrollPane jScrollPane1) {
+		this.jScrollPane1 = jScrollPane1;
+	}
+
+	public javax.swing.JTextField getjTextFieldCaminhoArquivo() {
+		return jTextFieldCaminhoArquivo;
+	}
+
+	public void setjTextFieldCaminhoArquivo(javax.swing.JTextField jTextFieldCaminhoArquivo) {
+		this.jTextFieldCaminhoArquivo = jTextFieldCaminhoArquivo;
+	}
+
+	public javax.swing.JButton getJbtnCad() {
+		return jbtnCad;
+	}
+
+	public void setJbtnCad(javax.swing.JButton jbtnCad) {
+		this.jbtnCad = jbtnCad;
+	}
+
+	private void jButtonProcurarActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             JFileChooser buscaAquivo = new JFileChooser();
             buscaAquivo.setCurrentDirectory(new File("/Users/ksjenger/Desktop/"));
@@ -273,18 +457,30 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void jButtonAnalisar2ActionPerformed(java.awt.event.ActionEvent evt) {
+    	
+    	Banco bancotemp = new Banco(ImportarArquivos.ImportarArquivos(bancos.getUrl()));
+    	bancos.setBanco((bancotemp.getBanco()));
+    	bancos.setTipo(bancotemp.getTipo());
+    	bancos.setQtdLinhas(bancotemp.getQtdLinhas());
+    	bancos.setArquivo(bancotemp.getArquivo());
+    	
+        jTextAreaLinhaArquivo.setText(bancos.getArquivo());        
+        jLabelRespBanco.setText(bancos.getBanco());
+        jLabelRespTipo.setText(bancos.getTipo());
+        jLabelResplinas.setText(""+ bancos.getQtdLinhas());
+        
       
     }
 
-    private void jTextFieldCaminhoArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCaminhoArquivoActionPerformed
+    private void jTextFieldCaminhoArquivoActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCaminhoArquivoActionPerformed
 
-    private void jTextAreaLinhaArquivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextAreaLinhaArquivoMouseClicked
-        jTextAreaLinhaArquivo.setEditable(false);
-        int i, j, l = 0, temp, temp1;
+    //private void jTextAreaLinhaArquivoMouseClicked(java.awt.event.MouseEvent evt) {
+        //jTextAreaLinhaArquivo.setEditable(false);
+        //int i, j, l = 0, temp, temp1;
         
-        bancos.setLinhaSelecionada(bancos.numeroLinha(jTextAreaLinhaArquivo.getCaretPosition()));
+        /*bancos.setLinhaSelecionada(bancos.numeroLinha(jTextAreaLinhaArquivo.getCaretPosition()));
         
           //CNAB 240
         if (bancos.getTipo().equals("CNAB 240")) {
@@ -441,9 +637,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     
-    /**
-     * @param args the command line arguments
-     */
+ */
     public static void main(String args[]) {
     
         try {

@@ -23,6 +23,16 @@ public class Banco {
 	}
 
 
+	public Banco(Banco importarArquivos) {
+		this.banco = importarArquivos.banco;
+		this.url = importarArquivos.url;
+		this.tipo = importarArquivos.tipo;
+		this.arquivo = importarArquivos.arquivo;
+		this.qtdLinhas = importarArquivos.qtdLinhas;
+		this.linhaSelecionada = importarArquivos.linhaSelecionada;
+		
+	}
+
 	public String getBanco() {
 		return banco;
 	}
